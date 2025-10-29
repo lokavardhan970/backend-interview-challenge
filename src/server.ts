@@ -9,7 +9,9 @@ import { errorHandler } from './middleware/errorHandler';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+
+// ✅ Always use Render's dynamic PORT
+const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
 // Middleware
 app.use(cors());
@@ -22,25 +24,28 @@ const db = new Database(process.env.DATABASE_URL || './data/tasks.sqlite3');
 app.use('/api/tasks', createTaskRouter(db));
 app.use('/api/sync', createSyncRouter(db));
 
+// Default route to avoid 404 at root
+app.get('/', (_req, res) => {
+  res.send('✅ Backend is running successfully on Render!');
+});
+
 // Error handling
 app.use(errorHandler);
 
-// Start server
-async function start() {
+// Start server immediately
+(async () => {
   try {
     await db.initialize();
-    console.log('Database initialized');
-    
+    console.log('✅ Database initialized');
+
     app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
+      console.log(`🚀 Server running on port ${PORT}`);
     });
   } catch (error) {
-    console.error('Failed to start server:', error);
+    console.error('❌ Failed to start server:', error);
     process.exit(1);
   }
-}
-
-start();
+})();
 
 // Graceful shutdown
 process.on('SIGTERM', async () => {
