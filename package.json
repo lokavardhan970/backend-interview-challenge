@@ -4,16 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --watch src --exec tsx src/server.ts",
-    "build": "tsc",
-    "start": "node dist/server.js",
-    "test": "vitest",
-    "test:ui": "vitest --ui",
-    "test:coverage": "vitest --coverage",
-    "lint": "eslint src/**/*.ts",
-    "format": "prettier --write src/**/*.ts",
-    "typecheck": "tsc --noEmit"
-  },
+  "dev": "nodemon --watch src --exec tsx src/server.ts",
+  "build": "tsc",
+  "start": "npm run build && node dist/server.js",
+  "test": "vitest",
+  "test:ui": "vitest --ui",
+  "test:coverage": "vitest --coverage",
+  "lint": "eslint src/**/*.ts",
+  "format": "prettier --write src/**/*.ts",
+  "typecheck": "tsc --noEmit"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/senguttuvang/backend-interview-challenge.git"
