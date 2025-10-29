@@ -6,7 +6,7 @@ export function createSyncRouter(db: Database) {
   const router = express.Router();
   const syncService = new SyncService(db);
 
-  router.post("/process", async (req, res) => {
+  router.post("/process", async (_req, res) => {
     try {
       await syncService.processQueue();
       res.json({ message: "Sync completed successfully" });
