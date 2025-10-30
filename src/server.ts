@@ -53,3 +53,7 @@ process.on('SIGTERM', async () => {
   await db.close();
   process.exit(0);
 });
+
+app.get('/', (_req, res) => {
+  res.send('🚀 Backend is live and running successfully on Render!');
+});
