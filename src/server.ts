@@ -24,9 +24,17 @@ const db = new Database(process.env.DATABASE_URL || './data/tasks.sqlite3');
 app.use('/api/tasks', createTaskRouter(db));
 app.use('/api/sync', createSyncRouter(db));
 
-// Default route to avoid 404 at root
+// ✅ Root route for Render homepage
 app.get('/', (_req, res) => {
-  res.send('✅ Backend is running successfully on Render!');
+  res.send(`
+    <h2>🚀 Backend API is Live!</h2>
+    <p>✅ Database and server are running correctly on Render.</p>
+    <p>Try the API endpoints below:</p>
+    <ul>
+      <li><a href="/api/tasks">/api/tasks</a></li>
+      <li><a href="/api/sync">/api/sync</a></li>
+    </ul>
+  `);
 });
 
 // Error handling
@@ -37,10 +45,7 @@ app.use(errorHandler);
   try {
     await db.initialize();
     console.log('✅ Database initialized');
-
-    app.listen(PORT, () => {
-      console.log(`🚀 Server running on port ${PORT}`);
-    });
+    app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
   } catch (error) {
     console.error('❌ Failed to start server:', error);
     process.exit(1);
@@ -52,8 +57,4 @@ process.on('SIGTERM', async () => {
   console.log('SIGTERM received, shutting down gracefully');
   await db.close();
   process.exit(0);
-});
-
-app.get('/', (_req, res) => {
-  res.send('🚀 Backend is live and running successfully on Render!');
 });
